@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leviroz Shop</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: url('https://i.imgur.com/n55aMTa.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .welcome-text {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3em;
+      color: white;
+      text-align: center;
+      text-shadow: 2px 2px 0px black;
+      animation: fadeInText 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .logo {
+      display: none;
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: url('https://i.imgur.com/cFMAi8R.jpeg') no-repeat center center;
+      background-size: cover;
+      animation: scaleIn 1s ease-in-out forwards;
+    }
+
+    @keyframes scaleIn {
+      from { transform: translate(-50%, -50%) scale(0); }
+      to { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .additional-text {
+      display: none;
+      position: absolute;
+      top: 47%;
+      text-align: center;
+    }
+
+    .rank-item {
+      background-color: #8B0000;
+      padding: 15px 30px;
+      border-radius: 5px;
+      display: block;
+      margin: 15px 0;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: slideIn 0.5s ease-in-out forwards;
+      color: white;
+      text-decoration: none;
+      font-size: 1.3em;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .rank-item:hover {
+      background-color: #a30000;
+      transform: translateY(0) scale(1.2);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+    }
+
+    .rank-item:active {
+      transform: translateY(0) scale(0.95);
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="welcome-text">Welcome to Leviroz Shop</div>
+
+  <div class="logo"></div>
+
+  <div class="additional-text">
+    <a href="harusnyainiwebke2.html" class="rank-item" style="animation-delay: 0.3s;">Rank RPG</a>
+    <a href="slprac.html" class="rank-item" style="animation-delay: 0.6s;">Rank Practice SL</a>
+    <a href="#" class="rank-item" style="animation-delay: 0.9s;">Senjata Legend RPG</a>
+    <a href="fiturrank.html" class="rank-item" style="animation-delay: 1.2s;">Fitur Rank</a>
+    <a href="#" class="rank-item" style="animation-delay: 1.5s;">Rank Cpvp</a>
+  </div>
+
+  <audio id="click-sound" src="https://www.fesliyanstudios.com/play-mp3/387" preload="auto"></audio>
+
+  <script>
+    setTimeout(() => {
+      document.querySelector('.welcome-text').style.display = 'none';
+      document.querySelector('.logo').style.display = 'block';
+    }, 2000);
+
+    setTimeout(() => {
+      document.querySelector('.additional-text').style.display = 'block';
+    }, 3000);
+
+    const clickSound = document.getElementById('click-sound');
+    document.querySelectorAll('.rank-item').forEach(item => {
+      item.addEventListener('click', () => {
+        clickSound.currentTime = 0;
+        clickSound.play();
+      });
+    });
+  </script>
+
+</body>
+</html>
