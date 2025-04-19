@@ -5,134 +5,474 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leviroz Shop</title>
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
-      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: url('https://i.imgur.com/n55aMTa.jpeg') no-repeat center center fixed;
       background-size: cover;
+      min-height: 100vh;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Header Styles */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px 20px;
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+    }
+
+    .profile-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+    }
+
+    /* Profile Picture Styles */
+    .profile-picture {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: #e0e0e0;
+      display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      animation: fadeIn 1s ease-in-out;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .profile-picture:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .profile-picture img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    /* Default Avatar */
+    .default-avatar::before {
+      content: "";
+      display: block;
+      width: 30px;
+      height: 30px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23757575"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    /* Profile Menu */
+    .profile-menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1001;
+      min-width: 180px;
+      overflow: hidden;
+    }
+
+    .profile-menu button {
+      display: block;
+      width: 100%;
+      padding: 10px 15px;
+      text-align: left;
+      background: none;
+      border: none;
+      color: #333;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .profile-menu button:hover {
+      background-color: #f5f5f5;
+    }
+
+    .profile-menu button i {
+      margin-right: 8px;
+      width: 18px;
+      text-align: center;
+    }
+
+    .show {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .welcome-text {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 3em;
-      color: white;
-      text-align: center;
-      text-shadow: 2px 2px 0px black;
-      animation: fadeInText 1s ease-in-out forwards;
+    /* Main Content Styles */
+    .main-content {
+      padding: 100px 20px 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    @keyframes fadeInText {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .logo {
-      display: none;
-      position: absolute;
-      top: 35%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 150px;
-      height: 150px;
+    /* Logo Leviroz */
+    .leviroz-logo {
+      width: 200px;
+      height: 200px;
+      margin-bottom: 30px;
       border-radius: 50%;
       background: url('https://i.imgur.com/cFMAi8R.jpeg') no-repeat center center;
       background-size: cover;
-      animation: scaleIn 1s ease-in-out forwards;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 5px solid rgba(255,255,255,0.2);
+      animation: scaleIn 1s ease-out;
     }
 
     @keyframes scaleIn {
-      from { transform: translate(-50%, -50%) scale(0); }
-      to { transform: translate(-50%, -50%) scale(1); }
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
-    .additional-text {
-      display: none;
-      position: absolute;
-      top: 47%;
+    /* Welcome Text */
+    .welcome-text {
+      font-size: 2.5rem;
+      font-weight: 700;
       text-align: center;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+      animation: fadeIn 1s ease-out;
+    }
+
+    /* Rank Items */
+    .rank-items {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 500px;
     }
 
     .rank-item {
-      background-color: #8B0000;
-      padding: 15px 30px;
-      border-radius: 5px;
-      display: block;
-      margin: 15px 0;
-      opacity: 0;
-      transform: translateY(-20px);
-      animation: slideIn 0.5s ease-in-out forwards;
+      background-color: rgba(139, 0, 0, 0.85);
+      padding: 18px 25px;
+      border-radius: 10px;
       color: white;
       text-decoration: none;
-      font-size: 1.3em;
-      font-weight: bold;
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: center;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 0.5s ease-out forwards;
+    }
+
+    .rank-item:nth-child(1) { animation-delay: 0.2s; }
+    .rank-item:nth-child(2) { animation-delay: 0.4s; }
+    .rank-item:nth-child(3) { animation-delay: 0.6s; }
+    .rank-item:nth-child(4) { animation-delay: 0.8s; }
+    .rank-item:nth-child(5) { animation-delay: 1.0s; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .rank-item:hover {
-      background-color: #a30000;
-      transform: translateY(0) scale(1.2);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-      z-index: 10;
+      background-color: rgba(180, 0, 0, 0.95);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
-    .rank-item:active {
-      transform: translateY(0) scale(0.95);
+    /* Login/Daftar Buttons */
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .auth-button {
+      padding: 8px 15px;
+      border-radius: 5px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-btn {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    .login-btn:hover {
+      background-color: #2ecc71;
+    }
+
+    .daftar-btn {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .daftar-btn:hover {
+      background-color: #2980b9;
+    }
+
+    /* Hidden file input */
+    #upload-btn {
+      display: none;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .leviroz-logo {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .welcome-text {
+        font-size: 2rem;
+      }
+      
+      .rank-item {
+        padding: 15px 20px;
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 10px 15px;
+      }
+      
+      .profile-picture {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .leviroz-logo {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .welcome-text {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="welcome-text">Welcome to Leviroz Shop</div>
+  <!-- Header Section -->
+  <header class="header">
+    <div class="profile-container">
+      <div class="profile-picture default-avatar" id="profile-picture">
+        <img id="profile-img" src="" alt="Profile Picture">
+      </div>
+      <span id="profile-name" style="display:none;">Hello, <span id="username"></span></span>
+      
+      <div class="profile-menu" id="profile-menu">
+        <button onclick="document.getElementById('upload-btn').click()">
+          <i class="fas fa-camera"></i> Ubah Foto Profil
+        </button>
+        <button onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+    
+    <div class="auth-buttons" id="auth-buttons">
+      <button class="auth-button login-btn" id="login-btn">Login</button>
+      <button class="auth-button daftar-btn" id="daftar-btn">Daftar</button>
+    </div>
+  </header>
 
-  <div class="logo"></div>
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="leviroz-logo"></div>
+    <h1 class="welcome-text">Welcome to Leviroz Shop</h1>
+    
+    <div class="rank-items">
+      <a href="harusnyainiwebke2.html" class="rank-item">Rank RPG</a>
+      <a href="slprac.html" class="rank-item">Rank Practice SL</a>
+      <a href="#" class="rank-item">Senjata Legend RPG</a>
+      <a href="fiturrank.html" class="rank-item">Fitur Rank</a>
+      <a href="#" class="rank-item">Rank Cpvp</a>
+    </div>
+  </main>
 
-  <div class="additional-text">
-    <a href="harusnyainiwebke2.html" class="rank-item" style="animation-delay: 0.3s;">Rank RPG</a>
-    <a href="slprac.html" class="rank-item" style="animation-delay: 0.6s;">Rank Practice SL</a>
-    <a href="#" class="rank-item" style="animation-delay: 0.9s;">Senjata Legend RPG</a>
-    <a href="fiturrank.html" class="rank-item" style="animation-delay: 1.2s;">Fitur Rank</a>
-    <a href="#" class="rank-item" style="animation-delay: 1.5s;">Rank Cpvp</a>
-  </div>
+  <!-- Hidden file input for profile picture upload -->
+  <input type="file" id="upload-btn" accept="image/*">
 
+  <!-- Audio for click sound -->
   <audio id="click-sound" src="https://www.fesliyanstudios.com/play-mp3/387" preload="auto"></audio>
 
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
   <script>
-    setTimeout(() => {
-      document.querySelector('.welcome-text').style.display = 'none';
-      document.querySelector('.logo').style.display = 'block';
-    }, 2000);
+    // Elements
+    const loginButton = document.getElementById('login-btn');
+    const daftarButton = document.getElementById('daftar-btn');
+    const profileName = document.getElementById('profile-name');
+    const usernameDisplay = document.getElementById('username');
+    const profilePicture = document.getElementById('profile-picture');
+    const profileImg = document.getElementById('profile-img');
+    const profileMenu = document.getElementById('profile-menu');
+    const uploadBtn = document.getElementById('upload-btn');
+    const authButtons = document.getElementById('auth-buttons');
 
-    setTimeout(() => {
-      document.querySelector('.additional-text').style.display = 'block';
-    }, 3000);
+    // State
+    let loggedIn = false;
 
-    const clickSound = document.getElementById('click-sound');
-    document.querySelectorAll('.rank-item').forEach(item => {
-      item.addEventListener('click', () => {
-        clickSound.currentTime = 0;
-        clickSound.play();
-      });
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      checkLoginStatus();
+      setupEventListeners();
     });
+
+    // Check login status from localStorage
+    function checkLoginStatus() {
+      const savedUsername = localStorage.getItem('username');
+      const savedProfilePic = localStorage.getItem('profilePic');
+      
+      if (savedUsername) {
+        loginUser(savedUsername);
+        if (savedProfilePic) {
+          setProfilePicture(savedProfilePic);
+        }
+      }
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+      loginButton.addEventListener('click', showLoginAlert);
+      daftarButton.addEventListener('click', handleDaftar);
+      uploadBtn.addEventListener('change', handleProfileUpload);
+      document.addEventListener('click', handleOutsideClick);
+      
+      // Profile picture click
+      profilePicture.addEventListener('click', function(e) {
+        if (loggedIn) {
+          e.stopPropagation();
+          toggleProfileMenu();
+        } else {
+          alert('Silahkan login atau daftar terlebih dahulu!');
+        }
+      });
+      
+      // Add click sound to rank items
+      document.querySelectorAll('.rank-item').forEach(item => {
+        item.addEventListener('click', () => {
+          document.getElementById('click-sound').play();
+        });
+      });
+    }
+
+    // Handle daftar button
+    function handleDaftar() {
+      const username = prompt('Masukkan username untuk mendaftar:');
+      if (username && username.trim() !== '') {
+        loginUser(username);
+      }
+    }
+
+    // Login user
+    function loginUser(username) {
+      loggedIn = true;
+      usernameDisplay.textContent = username;
+      profileName.style.display = 'inline';
+      authButtons.style.display = 'none';
+      localStorage.setItem('username', username);
+    }
+
+    // Logout user
+    function logout() {
+      loggedIn = false;
+      profileName.style.display = 'none';
+      authButtons.style.display = 'flex';
+      resetProfilePicture();
+      localStorage.removeItem('username');
+      localStorage.removeItem('profilePic');
+      toggleProfileMenu();
+    }
+
+    // Toggle profile menu
+    function toggleProfileMenu() {
+      profileMenu.classList.toggle('show');
+    }
+
+    // Handle clicks outside profile menu
+    function handleOutsideClick(event) {
+      if (!event.target.closest('.profile-container')) {
+        profileMenu.classList.remove('show');
+      }
+    }
+
+    // Handle profile picture upload
+    function handleProfileUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        // Validate image
+        if (!file.type.match('image.*')) {
+          alert('Hanya file gambar yang diperbolehkan!');
+          return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+          alert('Ukuran gambar maksimal 2MB!');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          setProfilePicture(event.target.result);
+          localStorage.setItem('profilePic', event.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Set profile picture
+    function setProfilePicture(imageSrc) {
+      profileImg.src = imageSrc;
+      profileImg.style.display = 'block';
+      profilePicture.classList.remove('default-avatar');
+    }
+
+    // Reset profile picture to default
+    function resetProfilePicture() {
+      profileImg.src = '';
+      profileImg.style.display = 'none';
+      profilePicture.classList.add('default-avatar');
+    }
+
+    // Show login alert
+    function showLoginAlert() {
+      alert('Silahkan daftar terlebih dahulu!');
+    }
   </script>
 
 </body>
