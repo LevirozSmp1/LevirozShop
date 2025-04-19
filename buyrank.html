@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=0.1"/>
   <title>Rank RPG</title>
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
   <style>
@@ -281,7 +281,7 @@
   </div>
 
   <!-- Tombol kembali -->
-  <div class="back-button" onclick="window.location.href='percobaan1.html'">
+  <div class="back-button" onclick="window.location.href='index.html'">
     <h1>KEMBALI</h1>
   </div>
 
@@ -326,6 +326,126 @@
       },
       detectRetina: true
     });
+
+    // Konfigurasi partikel khusus untuk setiap rank
+    const createParticleConfig = (colors, shape = "circle", extraEffects = {}) => ({
+      particles: {
+        number: {
+          value: 40,
+          density: {
+            enable: true,
+            area: 300
+          }
+        },
+        color: {
+          value: colors
+        },
+        shape: {
+          type: shape,
+          options: shape === "star" ? {
+            sides: 5
+          } : {}
+        },
+        opacity: {
+          value: { min: 0.3, max: 1 },
+          animation: {
+            enable: true,
+            speed: 1.5,
+            sync: false
+          }
+        },
+        size: {
+          value: { min: 1, max: 5 }
+        },
+        move: {
+          enable: true,
+          speed: 3,
+          direction: "top",
+          outModes: {
+            default: "destroy"
+          },
+          straight: false,
+          attract: {
+            enable: false,
+            rotateX: 600,
+            rotateY: 1200
+          }
+        },
+        wobble: {
+          enable: true,
+          distance: 10,
+          speed: 1
+        },
+        ...extraEffects
+      },
+      emitters: {
+        life: {
+          count: 0,
+          duration: 0.1,
+          delay: 0
+        },
+        rate: {
+          delay: 0.05,
+          quantity: 7
+        },
+        size: {
+          width: 120,
+          height: 0
+        },
+        position: {
+          x: 50,
+          y: 100
+        }
+      }
+    });
+
+    // Partikel untuk VIP (Api oranye)
+    tsParticles.load("vip-particles", createParticleConfig(
+      ["#FFA500", "#FF8C00", "#FF4500"],
+      "circle",
+      { twinkle: { enable: true, frequency: 0.1, opacity: 1 } }
+    ));
+
+    // Partikel untuk MVP (Coral)
+    tsParticles.load("mvp-particles", createParticleConfig(
+      ["#FF7F50", "#FF6347", "#FF4500"],
+      "circle",
+      { bubble: { enable: true, distance: 100, size: 8, opacity: 0.8 } }
+    ));
+
+    // Partikel untuk Master (Ungu dengan bintang)
+    tsParticles.load("master-particles", createParticleConfig(
+      ["#4B0082", "#9370DB", "#8A2BE2"],
+      "star",
+      { orbit: { enable: true, radius: 10, rotation: { enable: true, speed: 5 } } }
+    ));
+
+    // Partikel untuk Legend (Emas dengan sparkle)
+    tsParticles.load("legend-particles", createParticleConfig(
+      ["#FFD700", "#DAA520", "#FFA500"],
+      "circle",
+      { 
+        twinkle: { enable: true, frequency: 0.3, opacity: 1 },
+        trail: { enable: true, length: 10, fillColor: "#FFFFFF" }
+      }
+    ));
+
+    // Partikel untuk Famous (Merah oranye)
+    tsParticles.load("famous-particles", createParticleConfig(
+      ["#FF4500", "#FF6347", "#FF0000"],
+      "circle",
+      { repulse: { enable: true, distance: 20, speed: 0.5 } }
+    ));
+
+    // Partikel untuk Hero (Merah gelap)
+    tsParticles.load("hero-particles", createParticleConfig(
+      ["#8B0000", "#FF0000", "#B22222"],
+      "circle",
+      { attract: { enable: true, rotateX: 300, rotateY: 600 } }
+    ));
+
+    // Animasi delay untuk tombol kembali
+    document.querySelector('.back-button').style.animationDelay = '3.5s';
   </script>
 </body>
 </html>
