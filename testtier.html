@@ -191,6 +191,23 @@
       background: rgba(255, 0, 0, 0.5);
     }
 
+    /* Back button */
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 8px 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
     /* Tier badge corner */
     .tier-badge {
       position: absolute;
@@ -218,10 +235,19 @@
         padding: 8px 12px;
         min-width: 80px;
       }
+      .back-button {
+        top: 10px;
+        left: 10px;
+        padding: 5px 10px;
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Back Button -->
+  <div class="back-button" onclick="window.history.back()">← Kembali</div>
+
   <h1 class="title">CPVP Tier Test</h1>
   <div class="subtitle">Pilih tier yang ingin diuji</div>
   
@@ -394,7 +420,7 @@
 
     // Contact tester via WhatsApp
     function contactTester(testerName, phoneNumber) {
-      const message = `Min mau test tier ${currentTier} dengan ${testerName}`;
+      const message = `Min mau test tier ${currentTier}`;
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
       
       window.open(whatsappUrl, '_blank');
