@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Player Report System</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: url('https://i.imgur.com/n55aMTa.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      gap: 20px;
+      animation: fadeIn 1s ease-in-out;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .ticket-counter {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      color: #ffcc00;
+    }
+
+    .report-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #ff9900;
+    }
+
+    input, textarea, select {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #444;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .file-upload {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .file-preview {
+      max-width: 100%;
+      max-height: 200px;
+      display: none;
+      border-radius: 5px;
+    }
+
+    .submit-btn {
+      background: #ff3333;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: #ff0000;
+      transform: translateY(-2px);
+    }
+
+    .submit-btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .ticket-list {
+      margin-top: 30px;
+      display: none;
+    }
+
+    .ticket-item {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border-left: 5px solid #ff3333;
+    }
+
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .ticket-player {
+      font-weight: bold;
+      color: #ff9900;
+    }
+
+    .ticket-date {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    .ticket-issue {
+      margin-bottom: 10px;
+    }
+
+    .ticket-proof {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 5px;
+    }
+
+    .no-tickets {
+      text-align: center;
+      color: #aaa;
+      font-style: italic;
+    }
+
+    .tab-container {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      border-radius: 5px 5px 0 0;
+      margin-right: 5px;
+    }
+
+    .tab.active {
+      background: rgba(255, 0, 0, 0.5);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="text-align: center; color: #ff3333;">Player Report System</h1>
+    
+    <div class="ticket-counter">
+      Create Ticket <span id="ticketCount">1</span>/5
+    </div>
+    
+    <div class="tab-container">
+      <div class="tab active" onclick="showTab('report')">Buat Report</div>
+      <div class="tab" onclick="showTab('tickets')">Ticket Saya</div>
+    </div>
+    
+    <div id="reportTab" class="report-form">
+      <div class="form-group">
+        <label for="playerName">Gamertag/Username player</label>
+        <input type="text" id="playerName" placeholder="Masukkan username/GT player" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="issue">Masalah</label>
+        <select id="issue" required>
+          <option value="">Pilih jenis masalah</option>
+          <option value="Hacking/Cheating">Hacking/Cheating</option>
+          <option value="Bug Abuse">Bug Abuse</option>
+          <option value="Toxic Behavior">Toxic Behavior</option>
+          <option value="Scamming">Scamming</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Deskripsi Masalah (Detail)</label>
+        <textarea id="description" rows="4" placeholder="Jelaskan masalahnya secara detail..." required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>Bukti Video/Foto</label>
+        <div class="file-upload">
+          <input type="file" id="proofFile" accept="image/*,video/*">
+          <small>Jika tidak ada bukti, hukuman akan dipertimbangkan</small>
+          <img id="filePreview" class="file-preview" alt="Preview">
+        </div>
+      </div>
+      
+      <button id="submitBtn" class="submit-btn" onclick="submitReport()">Kirim Report</button>
+    </div>
+    
+    <div id="ticketsTab" class="ticket-list">
+      <h2 style="text-align: center; margin-bottom: 20px;">Ticket Report Saya</h2>
+      <div id="ticketsContainer" class="no-tickets">
+        Anda belum membuat ticket report
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simpan ticket di localStorage
+    let tickets = JSON.parse(localStorage.getItem('playerReports')) || [];
+    let ticketCount = parseInt(localStorage.getItem('ticketCount')) || 1;
+    const maxTickets = 5;
+    
+    // Update counter
+    document.getElementById('ticketCount').textContent = ticketCount;
+    
+    // File preview
+    document.getElementById('proofFile').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const preview = document.getElementById('filePreview');
+          preview.src = event.target.result;
+          preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Tab system
+    function showTab(tabName) {
+      document.getElementById('reportTab').style.display = tabName === 'report' ? 'flex' : 'none';
+      document.getElementById('ticketsTab').style.display = tabName === 'tickets' ? 'block' : 'none';
+      
+      // Update active tab
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.currentTarget.classList.add('active');
+      
+      // Load tickets if viewing tickets tab
+      if (tabName === 'tickets') {
+        loadTickets();
+      }
+    }
+    
+    // Submit report
+    function submitReport() {
+      if (ticketCount > maxTickets) {
+        alert('Anda sudah mencapai batas ticket harian (5 ticket). Silakan coba lagi besok.');
+        return;
+      }
+      
+      const playerName = document.getElementById('playerName').value;
+      const issue = document.getElementById('issue').value;
+      const description = document.getElementById('description').value;
+      const proofFile = document.getElementById('proofFile').files[0];
+      
+      if (!playerName || !issue || !description) {
+        alert('Harap isi semua field yang diperlukan!');
+        return;
+      }
+      
+      // Create ticket
+      const ticket = {
+        id: Date.now(),
+        playerName: playerName,
+        issue: issue,
+        description: description,
+        date: new Date().toLocaleString(),
+        proof: proofFile ? URL.createObjectURL(proofFile) : null,
+        status: 'Pending'
+      };
+      
+      tickets.push(ticket);
+      ticketCount++;
+      
+      // Save to localStorage
+      localStorage.setItem('playerReports', JSON.stringify(tickets));
+      localStorage.setItem('ticketCount', ticketCount);
+      
+      // Update UI
+      document.getElementById('ticketCount').textContent = ticketCount;
+      alert('Ticket report berhasil dikirim!');
+      
+      // Reset form
+      document.getElementById('playerName').value = '';
+      document.getElementById('issue').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('proofFile').value = '';
+      document.getElementById('filePreview').style.display = 'none';
+      
+      // Disable submit if reached max tickets
+      if (ticketCount > maxTickets) {
+        document.getElementById('submitBtn').disabled = true;
+      }
+    }
+    
+    // Load tickets
+    function loadTickets() {
+      const container = document.getElementById('ticketsContainer');
+      
+      if (tickets.length === 0) {
+        container.innerHTML = 'Anda belum membuat ticket report';
+        container.className = 'no-tickets';
+        return;
+      }
+      
+      container.innerHTML = '';
+      container.className = '';
+      
+      tickets.forEach(ticket => {
+        const ticketElement = document.createElement('div');
+        ticketElement.className = 'ticket-item';
+        ticketElement.innerHTML = `
+          <div class="ticket-header">
+            <div class="ticket-player">${ticket.playerName}</div>
+            <div class="ticket-date">${ticket.date}</div>
+          </div>
+          <div class="ticket-issue"><strong>Masalah:</strong> ${ticket.issue}</div>
+          <div class="ticket-description"><strong>Deskripsi:</strong> ${ticket.description}</div>
+          ${ticket.proof ? `
+            <div style="margin-top: 10px;">
+              <strong>Bukti:</strong><br>
+              ${ticket.proof.includes('image') ? 
+                `<img src="${ticket.proof}" class="ticket-proof">` : 
+                `<video controls class="ticket-proof">
+                  <source src="${ticket.proof}" type="video/mp4">
+                  Browser tidak mendukung preview video
+                </video>`}
+            </div>
+          ` : '<div style="margin-top: 10px;"><strong>Tidak ada bukti</strong></div>'}
+          <div style="margin-top: 10px; color: ${ticket.status === 'Pending' ? '#ffcc00' : '#4CAF50'}">
+            <strong>Status:</strong> ${ticket.status}
+          </div>
+        `;
+        
+        container.appendChild(ticketElement);
+      });
+    }
+    
+    // Reset ticket count daily
+    function checkDailyReset() {
+      const lastReset = localStorage.getItem('lastReset');
+      const today = new Date().toDateString();
+      
+      if (lastReset !== today) {
+        localStorage.setItem('ticketCount', 1);
+        localStorage.setItem('lastReset', today);
+        ticketCount = 1;
+        document.getElementById('ticketCount').textContent = ticketCount;
+        document.getElementById('submitBtn').disabled = false;
+      }
+    }
+    
+    // Check for reset on page load
+    checkDailyReset();
+  </script>
+</body>
+</html>
