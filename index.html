@@ -35,6 +35,12 @@
       z-index: 1000;
     }
 
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
     .profile-container {
       display: flex;
       align-items: center;
@@ -122,6 +128,62 @@
       animation: fadeIn 0.3s ease-out;
     }
 
+    /* Confirmation Dialog */
+    .confirmation-dialog {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1002;
+      text-align: center;
+      max-width: 300px;
+      width: 90%;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .confirmation-dialog p {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .dialog-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .dialog-button {
+      padding: 8px 20px;
+      border-radius: 5px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .yes-button {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    .yes-button:hover {
+      background-color: #2ecc71;
+    }
+
+    .no-button {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .no-button:hover {
+      background-color: #c0392b;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -195,6 +257,8 @@
     .rank-item:nth-child(3) { animation-delay: 0.6s; }
     .rank-item:nth-child(4) { animation-delay: 0.8s; }
     .rank-item:nth-child(5) { animation-delay: 1.0s; }
+    .rank-item:nth-child(6) { animation-delay: 1.2s; }
+    .rank-item:nth-child(7) { animation-delay: 1.4s; }
 
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(20px); }
@@ -280,6 +344,10 @@
       .welcome-text {
         font-size: 1.8rem;
       }
+      
+      .header-left {
+        gap: 10px;
+      }
     }
   </style>
 </head>
@@ -287,19 +355,21 @@
 
   <!-- Header Section -->
   <header class="header">
-    <div class="profile-container">
-      <div class="profile-picture default-avatar" id="profile-picture">
-        <img id="profile-img" src="" alt="Profile Picture">
-      </div>
-      <span id="profile-name" style="display:none;">Hello, <span id="username"></span></span>
-      
-      <div class="profile-menu" id="profile-menu">
-        <button onclick="document.getElementById('upload-btn').click()">
-          <i class="fas fa-camera"></i> Ubah Foto Profil
-        </button>
-        <button onclick="logout()">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
+    <div class="header-left">
+      <div class="profile-container">
+        <div class="profile-picture default-avatar" id="profile-picture">
+          <img id="profile-img" src="" alt="Profile Picture">
+        </div>
+        <span id="profile-name" style="display:none;">Hello, <span id="username"></span></span>
+        
+        <div class="profile-menu" id="profile-menu">
+          <button onclick="document.getElementById('upload-btn').click()">
+            <i class="fas fa-camera"></i> Ubah Foto Profil
+          </button>
+          <button onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
       </div>
     </div>
     
@@ -315,11 +385,13 @@
     <h1 class="welcome-text">Welcome to Leviroz Shop</h1>
     
     <div class="rank-items">
-      <a href="buyrank.html" class="rank-item">Rank RPG</a>
-      <a href="buysl" class="rank-item">Practice SL</a>
-      <a href="#" class="rank-item">Senjata Legend RPG</a>
+      <a href="harusnyainiwebke2.html" class="rank-item">Rank RPG</a>
+      <a href="rankpracticesl.html" class="rank-item">Rank Practice SL</a>
+      <a href="slprac.html" class="rank-item">Senjata Legend RPG</a>
       <a href="fiturrank.html" class="rank-item">Fitur Rank</a>
-      <a href="#" class="rank-item">Rank Kill Cpvp</a>
+      <a href="testtier.html" class="rank-item">Test Tier Cpvp</a>
+      <a href="#" class="rank-item">Report Player</a>
+      <a href="#" class="rank-item">Link Grup Wa/Dc</a>
     </div>
   </main>
 
