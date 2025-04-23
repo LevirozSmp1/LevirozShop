@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Senjata Legend RPG</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: url('https://i.imgur.com/n55aMTa.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      gap: 20px;
+      animation: fadeIn 1s ease-in-out;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .title {
+      color: white;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .rank-table {
+      width: 80%;
+      max-width: 800px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      border-collapse: collapse;
+    }
+
+    .rank-table th {
+      background: rgba(255, 0, 0, 0.5);
+      padding: 15px;
+      text-align: center;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+    }
+
+    .rank-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .rank-name {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #ffcc00;
+    }
+
+    .rank-benefits {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .rank-benefits span {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .rank-requirements {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .price-button {
+      background: linear-gradient(to right, #4CAF50, #8BC34A);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .price-button:hover {
+      background: linear-gradient(to right, #8BC34A, #4CAF50);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .price-button:active {
+      transform: translateY(0);
+    }
+
+    .slayer-row {
+      background: rgba(139, 0, 0, 0.3);
+    }
+
+    .murderer-row {
+      background: rgba(178, 34, 34, 0.3);
+    }
+
+    .assassin-row {
+      background: rgba(220, 20, 60, 0.3);
+    }
+
+    .lvrz-row {
+      background: rgba(128, 0, 128, 0.3);
+    }
+
+    /* Confirmation Modal */
+    .confirmation-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .confirmation-box {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 30px;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+
+    .confirmation-text {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .confirmation-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .confirm-btn {
+      padding: 8px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .continue-btn {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .cancel-btn {
+      background: #f44336;
+      color: white;
+    }
+
+    .confirm-btn:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">Senjata Legend RPG</h1>
+  
+  <table class="rank-table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Benefits</th>
+        <th>Requirements</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="slayer-row">
+        <td class="rank-name">SLAYER</td>
+        <td class="rank-benefits">
+          <span>ʙɪѕᴀ ᴄʟᴀɪᴍ ʙᴇʙᴇʀᴀᴘᴀ ѕʟ</span>
+        </td>
+        <td class="rank-requirements">ʙᴜᴛᴜʜ 200ᴋɪʟʟ</td>
+        <td><button class="price-button" onclick="showConfirmation('SLAYER')">CLAIM</button></td>
+      </tr>
+      <tr class="murderer-row">
+        <td class="rank-name">MURDERER</td>
+        <td class="rank-benefits">
+          <span>ʙɪѕᴀ ᴄʟᴀɪᴍ ᴀʟʟ ѕᴇɴᴊᴀᴛᴀ ʟᴇɢᴇɴᴅѕ</span>
+          <span>ʙɪѕᴀ ᴄʟᴀɪᴍ 2 ᴀʀᴍᴏʀ ᴄᴜѕᴛᴏᴍ</span>
+        </td>
+        <td class="rank-requirements">ʙᴜᴛᴜʜ 400 ᴋɪʟʟ</td>
+        <td><button class="price-button" onclick="showConfirmation('MURDERER')">CLAIM</button></td>
+      </tr>
+      <tr class="assassin-row">
+        <td class="rank-name">ASSASSIN</td>
+        <td class="rank-benefits">
+          <span>ʙɪѕᴀ ᴄʟᴀɪᴍ ᴀʟʟ ѕᴇɴᴊᴀᴛᴀ ʟᴇɢᴇɴᴅѕ</span>
+          <span>ʙɪѕᴀ ᴄʟᴀɪᴍ 5 ᴀʀᴍᴏʀ ᴄᴜѕᴛᴏᴍ</span>
+        </td>
+        <td class="rank-requirements">ʙᴜᴛᴜʜ 800 ᴋɪʟʟ</td>
+        <td><button class="price-button" onclick="showConfirmation('ASSASSIN')">CLAIM</button></td>
+      </tr>
+      <tr class="lvrz-row">
+        <td class="rank-name">LVRZ</td>
+        <td class="rank-benefits">
+          <span>ʙɪѕᴀ ᴄʟᴀɪᴍ ᴀʟʟ ѕᴇɴᴊᴀᴛᴀ ʟᴇɢᴇɴᴅѕ</span>
+          <span>ʙɪѕᴀ ᴄʟᴀɪᴍ 5 ᴀʀᴍᴏʀ ᴄᴜѕᴛᴏᴍ</span>
+        </td>
+        <td class="rank-requirements">PRICE 30k</td>
+        <td><button class="price-button" onclick="contactWa('LVRZ')">BUY NOW</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Confirmation Modal -->
+  <div class="confirmation-modal" id="confirmationModal">
+    <div class="confirmation-box">
+      <div class="confirmation-text" id="confirmationText">
+        Harus kirim bukti kill nya terlebih dahulu!
+      </div>
+      <div class="confirmation-buttons">
+        <button class="confirm-btn continue-btn" id="continueBtn">Lanjutkan</button>
+        <button class="confirm-btn cancel-btn" onclick="closeConfirmation()">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentRank = '';
+    const phoneNumber = "6285697093005"; // Ganti dengan nomor WhatsApp tujuan
+
+    function showConfirmation(rank) {
+      currentRank = rank;
+      document.getElementById('confirmationText').textContent = 
+        `Untuk claim rank ${rank}, harus kirim bukti kill nya terlebih dahulu!`;
+      document.getElementById('confirmationModal').style.display = 'flex';
+      
+      // Update continue button
+      const continueBtn = document.getElementById('continueBtn');
+      continueBtn.onclick = function() {
+        contactWa(currentRank);
+        closeConfirmation();
+      };
+    }
+
+    function closeConfirmation() {
+      document.getElementById('confirmationModal').style.display = 'none';
+    }
+
+    function contactWa(rank) {
+      let message = "";
+      
+      if (rank === "LVRZ") {
+        message = `Halo, saya ingin membeli rank ${rank} senjata legend seharga 30k`;
+      } else {
+        message = `Halo, saya ingin claim rank ${rank} senjata legend. Berikut bukti kill saya: [SILAHKAN LAMPIRKAN BUKTI]`;
+      }
+      
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === document.getElementById('confirmationModal')) {
+        closeConfirmation();
+      }
+    });
+  </script>
+</body>
+</html>
