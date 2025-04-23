@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Player Report System</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: url('https://i.imgur.com/n55aMTa.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      gap: 20px;
+      animation: fadeIn 1s ease-in-out;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .ticket-counter {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      color: #ffcc00;
+    }
+
+    .report-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #ff9900;
+    }
+
+    input, textarea, select {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #444;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .file-upload {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .file-preview {
+      max-width: 100%;
+      max-height: 200px;
+      display: none;
+      border-radius: 5px;
+    }
+
+    .submit-btn {
+      background: #ff3333;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: #ff0000;
+      transform: translateY(-2px);
+    }
+
+    .submit-btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Hidden admin trigger */
+    .admin-trigger {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+      z-index: 1000;
+      cursor: pointer;
+    }
+
+    /* Admin Panel */
+    .admin-panel, .player-panel {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 999;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .admin-header, .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close-admin, .close-player {
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .admin-ticket, .player-ticket {
+      background: rgba(50, 50, 50, 0.8);
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #ff3333;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .approve-btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .reject-btn {
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .check-status-btn {
+      background: #2196F3;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 20px;
+      width: 100%;
+    }
+    
+    .status-badge {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+    
+    .status-pending {
+      background-color: #ffcc00;
+      color: #000;
+    }
+    
+    .status-approved {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .status-rejected {
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hidden Admin Trigger (top-left corner) -->
+  <div class="admin-trigger" id="adminTrigger"></div>
+
+  <div class="container">
+    <h1 style="text-align: center; color: #ff3333;">Player Report System</h1>
+    
+    <div class="ticket-counter">
+      Create Ticket <span id="ticketCount">1</span>/5
+    </div>
+    
+    <div class="report-form">
+      <div class="form-group">
+        <label for="playerName">Gamertag/Username player</label>
+        <input type="text" id="playerName" placeholder="Masukkan username/GT player" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="issue">Masalah</label>
+        <select id="issue" required>
+          <option value="">Pilih jenis masalah</option>
+          <option value="Hacking/Cheating">Hacking/Cheating</option>
+          <option value="Bug Abuse">Bug Abuse</option>
+          <option value="Toxic Behavior">Toxic Behavior</option>
+          <option value="Scamming">Scamming</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Deskripsi Masalah (Detail)</label>
+        <textarea id="description" rows="4" placeholder="Jelaskan masalahnya secara detail..." required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>Bukti Video/Foto</label>
+        <div class="file-upload">
+          <input type="file" id="proofFile" accept="image/*,video/*">
+          <small>Jika tidak ada bukti, hukuman akan dipertimbangkan</small>
+          <img id="filePreview" class="file-preview" alt="Preview">
+        </div>
+      </div>
+      
+      <button id="submitBtn" class="submit-btn" onclick="submitReport()">Kirim Report</button>
+      <button class="check-status-btn" onclick="openPlayerPanel()">Cek Status Report</button>
+    </div>
+  </div>
+
+  <!-- Admin Panel (Hidden) -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-header">
+      <h2>ADMIN PANEL - All Reports</h2>
+      <button class="close-admin" onclick="closeAdminPanel()">Close</button>
+    </div>
+    <div id="adminTicketsContainer"></div>
+  </div>
+  
+  <!-- Player Panel (Hidden) -->
+  <div class="player-panel" id="playerPanel">
+    <div class="player-header">
+      <h2>REPORT STATUS</h2>
+      <button class="close-player" onclick="closePlayerPanel()">Close</button>
+    </div>
+    <div id="playerTicketsContainer"></div>
+  </div>
+
+  <script>
+    // Password: 1Tz1SR3YhaN@@ (hex encoded)
+    const _0xad3d=["\x31\x54\x7A\x31\x53\x52\x33\x59\x68\x61\x4E\x40\x40","\x61\x6C\x6C\x50\x6C\x61\x79\x65\x72\x52\x65\x70\x6F\x72\x74\x73"];
+    
+    // Disable right-click and other view source methods
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      alert('View source is disabled');
+    });
+    
+    document.addEventListener('keydown', function(e) {
+      // Disable Ctrl+U, F12, Ctrl+Shift+I
+      if (e.ctrlKey && e.keyCode === 85 || e.keyCode === 123 || e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+        e.preventDefault();
+        alert('View source is disabled');
+      }
+    });
+    
+    // Initialize variables
+    let tickets = JSON.parse(localStorage.getItem('playerReports')) || [];
+    let ticketCount = parseInt(localStorage.getItem('ticketCount')) || 1;
+    const maxTickets = 5;
+    
+    // Update counter
+    document.getElementById('ticketCount').textContent = ticketCount;
+    
+    // File preview
+    document.getElementById('proofFile').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const preview = document.getElementById('filePreview');
+          preview.src = event.target.result;
+          preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Admin trigger click
+    document.getElementById('adminTrigger').addEventListener('click', function() {
+      const password = prompt("Masukkan password admin:");
+      if (password === _0xad3d[0]) {
+        openAdminPanel();
+      } else {
+        alert("Password salah!");
+      }
+    });
+    
+    function openAdminPanel() {
+      document.getElementById('adminPanel').style.display = 'block';
+      loadAllTickets();
+    }
+    
+    function closeAdminPanel() {
+      document.getElementById('adminPanel').style.display = 'none';
+    }
+    
+    function openPlayerPanel() {
+      document.getElementById('playerPanel').style.display = 'block';
+      loadPlayerTickets();
+    }
+    
+    function closePlayerPanel() {
+      document.getElementById('playerPanel').style.display = 'none';
+    }
+    
+    function loadAllTickets() {
+      const container = document.getElementById('adminTicketsContainer');
+      container.innerHTML = '';
+      
+      const allReports = JSON.parse(localStorage.getItem(_0xad3d[1])) || [];
+      
+      if (allReports.length === 0) {
+        container.innerHTML = '<div style="text-align:center;color:#aaa">No reports found</div>';
+        return;
+      }
+      
+      allReports.forEach(ticket => {
+        const ticketElement = document.createElement('div');
+        ticketElement.className = 'admin-ticket';
+        ticketElement.innerHTML = `
+          <div>
+            <strong>Player:</strong> ${ticket.playerName}<br>
+            <strong>Date:</strong> ${ticket.date}<br>
+            <strong>Issue:</strong> ${ticket.issue}<br>
+            <strong>Description:</strong> ${ticket.description}<br>
+            ${ticket.proof ? `
+              <strong>Evidence:</strong><br>
+              ${ticket.proof.includes('image') ? 
+                `<img src="${ticket.proof}" style="max-width:300px;max-height:200px;">` : 
+                `<video controls style="max-width:300px;max-height:200px;">
+                  <source src="${ticket.proof}" type="video/mp4">
+                </video>`}
+            ` : '<strong>No evidence provided</strong>'}
+          </div>
+          <div class="admin-actions">
+            <button class="approve-btn" onclick="updateTicketStatus('${ticket.id}', 'Approved')">Approve</button>
+            <button class="reject-btn" onclick="updateTicketStatus('${ticket.id}', 'Rejected')">Reject</button>
+          </div>
+          <div style="margin-top:10px;">
+            <strong>Status:</strong> <span class="status-badge status-${ticket.status ? ticket.status.toLowerCase() : 'pending'}">${ticket.status || 'Pending'}</span>
+          </div>
+        `;
+        container.appendChild(ticketElement);
+      });
+    }
+    
+    function loadPlayerTickets() {
+      const container = document.getElementById('playerTicketsContainer');
+      container.innerHTML = '';
+      
+      const playerReports = JSON.parse(localStorage.getItem('playerReports')) || [];
+      
+      if (playerReports.length === 0) {
+        container.innerHTML = '<div style="text-align:center;color:#aaa">Anda belum membuat report</div>';
+        return;
+      }
+      
+      playerReports.forEach(ticket => {
+        const allReports = JSON.parse(localStorage.getItem(_0xad3d[1])) || [];
+        const fullTicket = allReports.find(t => t.id === ticket.id) || ticket;
+        
+        const ticketElement = document.createElement('div');
+        ticketElement.className = 'player-ticket';
+        ticketElement.innerHTML = `
+          <div>
+            <strong>Player:</strong> ${fullTicket.playerName}<br>
+            <strong>Date:</strong> ${fullTicket.date}<br>
+            <strong>Issue:</strong> ${fullTicket.issue}<br>
+            <strong>Description:</strong> ${fullTicket.description}<br>
+            ${fullTicket.proof ? `
+              <strong>Evidence:</strong><br>
+              ${fullTicket.proof.includes('image') ? 
+                `<img src="${fullTicket.proof}" style="max-width:300px;max-height:200px;">` : 
+                `<video controls style="max-width:300px;max-height:200px;">
+                  <source src="${fullTicket.proof}" type="video/mp4">
+                </video>`}
+            ` : '<strong>No evidence provided</strong>'}
+          </div>
+          <div style="margin-top:10px;">
+            <strong>Status:</strong> <span class="status-badge status-${fullTicket.status ? fullTicket.status.toLowerCase() : 'pending'}">${fullTicket.status || 'Pending'}</span>
+          </div>
+          ${fullTicket.status === 'Rejected' ? '<div style="margin-top:10px;color:#ff9999;">Laporan Anda ditolak karena bukti tidak cukup atau tidak valid</div>' : ''}
+          ${fullTicket.status === 'Approved' ? '<div style="margin-top:10px;color:#99ff99;">Laporan Anda diterima, player akan ditindak lanjuti</div>' : ''}
+        `;
+        container.appendChild(ticketElement);
+      });
+    }
+    
+    function updateTicketStatus(ticketId, status) {
+      const allReports = JSON.parse(localStorage.getItem(_0xad3d[1])) || [];
+      const updatedReports = allReports.map(ticket => {
+        if (ticket.id == ticketId) {
+          return {...ticket, status};
+        }
+        return ticket;
+      });
+      localStorage.setItem(_0xad3d[1], JSON.stringify(updatedReports));
+      
+      // Also update in player's local storage if exists
+      const playerReports = JSON.parse(localStorage.getItem('playerReports')) || [];
+      const updatedPlayerReports = playerReports.map(ticket => {
+        if (ticket.id == ticketId) {
+          return {...ticket, status};
+        }
+        return ticket;
+      });
+      localStorage.setItem('playerReports', JSON.stringify(updatedPlayerReports));
+      
+      loadAllTickets();
+    }
+    
+    function submitReport() {
+      if (ticketCount > maxTickets) {
+        alert('Anda sudah mencapai batas ticket harian (5 ticket). Silakan coba lagi besok.');
+        return;
+      }
+      
+      const playerName = document.getElementById('playerName').value;
+      const issue = document.getElementById('issue').value;
+      const description = document.getElementById('description').value;
+      const proofFile = document.getElementById('proofFile').files[0];
+      
+      if (!playerName || !issue || !description) {
+        alert('Harap isi semua field yang diperlukan!');
+        return;
+      }
+      
+      // Create ticket
+      const ticket = {
+        id: Date.now(),
+        playerName: playerName,
+        issue: issue,
+        description: description,
+        date: new Date().toLocaleString(),
+        proof: proofFile ? URL.createObjectURL(proofFile) : null,
+        status: 'Pending'
+      };
+      
+      // Save to user's tickets
+      tickets.push(ticket);
+      localStorage.setItem('playerReports', JSON.stringify(tickets));
+      
+      // Save to admin's view
+      const allReports = JSON.parse(localStorage.getItem(_0xad3d[1])) || [];
+      allReports.push(ticket);
+      localStorage.setItem(_0xad3d[1], JSON.stringify(allReports));
+      
+      // Update counter
+      ticketCount++;
+      localStorage.setItem('ticketCount', ticketCount);
+      document.getElementById('ticketCount').textContent = ticketCount;
+      
+      alert('Ticket report berhasil dikirim!');
+      
+      // Reset form
+      document.getElementById('playerName').value = '';
+      document.getElementById('issue').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('proofFile').value = '';
+      document.getElementById('filePreview').style.display = 'none';
+      
+      if (ticketCount > maxTickets) {
+        document.getElementById('submitBtn').disabled = true;
+      }
+    }
+    
+    // Check for daily reset
+    function checkDailyReset() {
+      const lastReset = localStorage.getItem('lastReset');
+      const today = new Date().toDateString();
+      
+      if (lastReset !== today) {
+        localStorage.setItem('ticketCount', 1);
+        localStorage.setItem('lastReset', today);
+        ticketCount = 1;
+        document.getElementById('ticketCount').textContent = ticketCount;
+        document.getElementById('submitBtn').disabled = false;
+      }
+    }
+    
+    // Initialize
+    checkDailyReset();
+  </script>
+</body>
+</html>
