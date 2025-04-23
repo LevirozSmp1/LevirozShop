@@ -44,8 +44,8 @@
 
     .rank-item,
     .back-button {
-      width: 250px; /* Lebar ditambah */
-      height: 35px; /* Tinggi tombol ditambah */
+      width: 250px;
+      height: 35px;
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
       display: flex;
@@ -73,22 +73,22 @@
 
     /* Warna berbeda untuk setiap rank */
     .rank-item:nth-child(1) {
-      background: linear-gradient(135deg, #FF8C00, #FF4500); /* VIP - Oranye Api */
+      background: linear-gradient(135deg, #FF8C00, #FF4500);
     }
     .rank-item:nth-child(2) {
-      background: linear-gradient(135deg, #FF6347, #FF7F50); /* MVP - Coral */
+      background: linear-gradient(135deg, #FF6347, #FF7F50);
     }
     .rank-item:nth-child(3) {
-      background: linear-gradient(135deg, #4B0082, #9370DB); /* Master - Ungu */
+      background: linear-gradient(135deg, #4B0082, #9370DB);
     }
     .rank-item:nth-child(4) {
-      background: linear-gradient(135deg, #FFD700, #DAA520); /* Legend - Emas */
+      background: linear-gradient(135deg, #FFD700, #DAA520);
     }
     .rank-item:nth-child(5) {
-      background: linear-gradient(135deg, #FF4500, #FF6347); /* Famous - Merah Oranye */
+      background: linear-gradient(135deg, #FF4500, #FF6347);
     }
     .rank-item:nth-child(6) {
-      background: linear-gradient(135deg, #FF0000, #8B0000); /* Hero - Merah Gelap */
+      background: linear-gradient(135deg, #FF0000, #8B0000);
     }
 
     .back-button {
@@ -97,9 +97,16 @@
       margin-top: 20px;
     }
 
+    .back-button span {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
     h1 {
       color: #fff;
-      font-size: 32px; /* Ukuran font lebih besar */
+      font-size: 32px;
       margin: 0;
       animation: fadeIn 0.5s forwards;
       opacity: 0;
@@ -119,7 +126,6 @@
       transform: scale(0.98);
     }
 
-    /* Animasi lebih lambat dan bertahap */
     .rank-item:nth-child(1) { animation-delay: 0.3s; }
     .rank-item:nth-child(2) { animation-delay: 0.6s; }
     .rank-item:nth-child(3) { animation-delay: 0.9s; }
@@ -128,7 +134,6 @@
     .rank-item:nth-child(6) { animation-delay: 1.8s; }
     .back-button { animation-delay: 2.1s; }
 
-    /* Partikel khusus untuk setiap tombol */
     .rank-particles {
       position: absolute;
       top: -50px;
@@ -139,7 +144,6 @@
       z-index: 1;
     }
 
-    /* Efek khusus untuk setiap rank */
     .fire-effect {
       position: absolute;
       bottom: 0;
@@ -150,54 +154,25 @@
       animation: flicker 0.5s infinite alternate;
     }
 
-    /* VIP - Efek api */
     #vip-rank .fire-effect {
-      background: linear-gradient(to top, 
-        rgba(255, 100, 0, 0.8) 0%, 
-        rgba(255, 200, 0, 0.4) 50%,
-        transparent 100%);
+      background: linear-gradient(to top, rgba(255, 100, 0, 0.8), rgba(255, 200, 0, 0.4), transparent);
     }
-
-    /* MVP - Efek coral */
     #mvp-rank .fire-effect {
-      background: linear-gradient(to top, 
-        rgba(255, 99, 71, 0.8) 0%, 
-        rgba(255, 160, 122, 0.4) 50%,
-        transparent 100%);
+      background: linear-gradient(to top, rgba(255, 99, 71, 0.8), rgba(255, 160, 122, 0.4), transparent);
     }
-
-    /* Master - Efek ungu */
     #master-rank .fire-effect {
-      background: linear-gradient(to top, 
-        rgba(75, 0, 130, 0.8) 0%, 
-        rgba(147, 112, 219, 0.4) 50%,
-        transparent 100%);
+      background: linear-gradient(to top, rgba(75, 0, 130, 0.8), rgba(147, 112, 219, 0.4), transparent);
       animation: pulse 2s infinite alternate;
     }
-
-    /* Legend - Efek emas */
     #legend-rank .fire-effect {
-      background: linear-gradient(to top, 
-        rgba(255, 215, 0, 0.8) 0%, 
-        rgba(218, 165, 32, 0.6) 50%,
-        transparent 100%);
+      background: linear-gradient(to top, rgba(255, 215, 0, 0.8), rgba(218, 165, 32, 0.6), transparent);
       animation: shine 1.5s infinite alternate;
     }
-
-    /* Famous - Efek merah oranye */
     #famous-rank .fire-effect {
-      background: linear-gradient(to top, 
-        rgba(255, 69, 0, 0.8) 0%, 
-        rgba(255, 99, 71, 0.4) 50%,
-        transparent 100%);
+      background: linear-gradient(to top, rgba(255, 69, 0, 0.8), rgba(255, 99, 71, 0.4), transparent);
     }
-
-    /* Hero - Efek merah gelap */
     #hero-rank .fire-effect {
-      background: linear-gradient(to top, 
-        rgba(139, 0, 0, 0.8) 0%, 
-        rgba(178, 34, 34, 0.4) 50%,
-        transparent 100%);
+      background: linear-gradient(to top, rgba(139, 0, 0, 0.8), rgba(178, 34, 34, 0.4), transparent);
     }
 
     @keyframes flicker {
@@ -225,54 +200,40 @@
       100% { opacity: 1; }
     }
 
-    /* Glow effect on hover */
     .rank-item:hover h1 {
       text-shadow: 0 0 15px currentColor;
     }
   </style>
 </head>
 <body>
-  <!-- Partikel background -->
   <div id="particles-js"></div>
 
-  <!-- Container untuk rank items -->
   <div class="rank-container">
-    <!-- VIP -->
     <a href="webke2.html" class="rank-item" id="vip-rank">
       <div class="rank-particles" id="vip-particles"></div>
       <div class="fire-effect"></div>
       <h1>VIP</h1>
     </a>
-
-    <!-- MVP -->
     <a href="webke2.html" class="rank-item" id="mvp-rank">
       <div class="rank-particles" id="mvp-particles"></div>
       <div class="fire-effect"></div>
       <h1>MVP</h1>
     </a>
-
-    <!-- Master -->
     <a href="webke2.html" class="rank-item" id="master-rank">
       <div class="rank-particles" id="master-particles"></div>
       <div class="fire-effect"></div>
       <h1>MASTER</h1>
     </a>
-
-    <!-- Legend -->
     <a href="webke2.html" class="rank-item" id="legend-rank">
       <div class="rank-particles" id="legend-particles"></div>
       <div class="fire-effect"></div>
       <h1>LEGEND</h1>
     </a>
-
-    <!-- Famous -->
     <a href="webke2.html" class="rank-item" id="famous-rank">
       <div class="rank-particles" id="famous-particles"></div>
       <div class="fire-effect"></div>
       <h1>FAMOUS</h1>
     </a>
-
-    <!-- Hero -->
     <a href="webke2.html" class="rank-item" id="hero-rank">
       <div class="rank-particles" id="hero-particles"></div>
       <div class="fire-effect"></div>
@@ -281,12 +242,11 @@
   </div>
 
   <!-- Tombol kembali -->
-  <button class="back-button" onclick="window.history.back()">Kembali</button>
-    <h1>KEMBALI</h1>
-  </div>
+  <button class="back-button" onclick="window.history.back()">
+    <span>KEMBALI</span>
+  </button>
 
   <script>
-    // Partikel background utama
     tsParticles.load("particles-js", {
       fpsLimit: 60,
       interactivity: {
@@ -300,26 +260,10 @@
       },
       particles: {
         color: { value: "#ffffff" },
-        links: {
-          color: "#ffffff",
-          distance: 200,
-          enable: true,
-          opacity: 0.4,
-          width: 1
-        },
+        links: { color: "#ffffff", distance: 200, enable: true, opacity: 0.4, width: 1 },
         collisions: { enable: true },
-        move: {
-          direction: "none",
-          enable: true,
-          outModes: { default: "bounce" },
-          random: false,
-          speed: 3,
-          straight: false
-        },
-        number: {
-          density: { enable: true, area: 1000 },
-          value: 60
-        },
+        move: { direction: "none", enable: true, outModes: { default: "bounce" }, speed: 3 },
+        number: { density: { enable: true, area: 1000 }, value: 60 },
         opacity: { value: 0.5 },
         shape: { type: "circle" },
         size: { value: { min: 1, max: 5 } }
@@ -327,124 +271,36 @@
       detectRetina: true
     });
 
-    // Konfigurasi partikel khusus untuk setiap rank
     const createParticleConfig = (colors, shape = "circle", extraEffects = {}) => ({
       particles: {
-        number: {
-          value: 40,
-          density: {
-            enable: true,
-            area: 300
-          }
-        },
-        color: {
-          value: colors
-        },
-        shape: {
-          type: shape,
-          options: shape === "star" ? {
-            sides: 5
-          } : {}
-        },
-        opacity: {
-          value: { min: 0.3, max: 1 },
-          animation: {
-            enable: true,
-            speed: 1.5,
-            sync: false
-          }
-        },
-        size: {
-          value: { min: 1, max: 5 }
-        },
+        number: { value: 40, density: { enable: true, area: 300 } },
+        color: { value: colors },
+        shape: { type: shape, options: shape === "star" ? { sides: 5 } : {} },
+        opacity: { value: { min: 0.3, max: 1 }, animation: { enable: true, speed: 1.5 } },
+        size: { value: { min: 1, max: 5 } },
         move: {
-          enable: true,
-          speed: 3,
-          direction: "top",
-          outModes: {
-            default: "destroy"
-          },
-          straight: false,
-          attract: {
-            enable: false,
-            rotateX: 600,
-            rotateY: 1200
-          }
+          enable: true, speed: 3, direction: "top",
+          outModes: { default: "destroy" },
+          attract: { enable: false }
         },
-        wobble: {
-          enable: true,
-          distance: 10,
-          speed: 1
-        },
+        wobble: { enable: true, distance: 10, speed: 1 },
         ...extraEffects
       },
       emitters: {
-        life: {
-          count: 0,
-          duration: 0.1,
-          delay: 0
-        },
-        rate: {
-          delay: 0.05,
-          quantity: 7
-        },
-        size: {
-          width: 120,
-          height: 0
-        },
-        position: {
-          x: 50,
-          y: 100
-        }
+        life: { count: 0, duration: 0.1 },
+        rate: { delay: 0.05, quantity: 7 },
+        size: { width: 120, height: 0 },
+        position: { x: 50, y: 100 }
       }
     });
 
-    // Partikel untuk VIP (Api oranye)
-    tsParticles.load("vip-particles", createParticleConfig(
-      ["#FFA500", "#FF8C00", "#FF4500"],
-      "circle",
-      { twinkle: { enable: true, frequency: 0.1, opacity: 1 } }
-    ));
+    tsParticles.load("vip-particles", createParticleConfig(["#FFA500", "#FF8C00", "#FF4500"], "circle", { twinkle: { enable: true, frequency: 0.1, opacity: 1 } }));
+    tsParticles.load("mvp-particles", createParticleConfig(["#FF7F50", "#FF6347", "#FF4500"]));
+    tsParticles.load("master-particles", createParticleConfig(["#4B0082", "#9370DB", "#8A2BE2"], "star", { orbit: { enable: true, radius: 10, rotation: { enable: true, speed: 5 } } }));
+    tsParticles.load("legend-particles", createParticleConfig(["#FFD700", "#DAA520", "#FFA500"], "circle", { twinkle: { enable: true, frequency: 0.3, opacity: 1 }, trail: { enable: true, length: 10, fillColor: "#FFFFFF" } }));
+    tsParticles.load("famous-particles", createParticleConfig(["#FF4500", "#FF6347", "#FF0000"]));
+    tsParticles.load("hero-particles", createParticleConfig(["#8B0000", "#FF0000", "#B22222"]));
 
-    // Partikel untuk MVP (Coral)
-    tsParticles.load("mvp-particles", createParticleConfig(
-      ["#FF7F50", "#FF6347", "#FF4500"],
-      "circle",
-      { bubble: { enable: true, distance: 100, size: 8, opacity: 0.8 } }
-    ));
-
-    // Partikel untuk Master (Ungu dengan bintang)
-    tsParticles.load("master-particles", createParticleConfig(
-      ["#4B0082", "#9370DB", "#8A2BE2"],
-      "star",
-      { orbit: { enable: true, radius: 10, rotation: { enable: true, speed: 5 } } }
-    ));
-
-    // Partikel untuk Legend (Emas dengan sparkle)
-    tsParticles.load("legend-particles", createParticleConfig(
-      ["#FFD700", "#DAA520", "#FFA500"],
-      "circle",
-      { 
-        twinkle: { enable: true, frequency: 0.3, opacity: 1 },
-        trail: { enable: true, length: 10, fillColor: "#FFFFFF" }
-      }
-    ));
-
-    // Partikel untuk Famous (Merah oranye)
-    tsParticles.load("famous-particles", createParticleConfig(
-      ["#FF4500", "#FF6347", "#FF0000"],
-      "circle",
-      { repulse: { enable: true, distance: 20, speed: 0.5 } }
-    ));
-
-    // Partikel untuk Hero (Merah gelap)
-    tsParticles.load("hero-particles", createParticleConfig(
-      ["#8B0000", "#FF0000", "#B22222"],
-      "circle",
-      { attract: { enable: true, rotateX: 300, rotateY: 600 } }
-    ));
-
-    // Animasi delay untuk tombol kembali
     document.querySelector('.back-button').style.animationDelay = '3.5s';
   </script>
 </body>
