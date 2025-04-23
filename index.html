@@ -387,7 +387,7 @@
     <div class="rank-items">
       <a href="harusnyainiwebke2.html" class="rank-item">Rank RPG</a>
       <a href="practiceslrank.html" class="rank-item">Rank Practice SL</a>
-      <a href="slprac.html" class="rank-item">Senjata Legend RPG</a>
+      <a href="hargasl.html" class="rank-item">Senjata Legend RPG</a>
       <a href="fiturrank.html" class="rank-item">Fitur Rank</a>
       <a href="testtier.html" class="rank-item">Test Tier Cpvp</a>
       <a href="reportplayer.html" class="rank-item">Report Player</a>
@@ -405,6 +405,34 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
   <script>
+    // ========== SECURITY MEASURES ==========
+    // Disable right-click context menu
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      alert('Akses ke sumber halaman dinonaktifkan');
+    });
+
+    // Disable keyboard shortcuts for viewing source
+    document.addEventListener('keydown', function(e) {
+      // Disable Ctrl+U, F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+      if ((e.ctrlKey && e.keyCode === 85) || // Ctrl+U
+          e.keyCode === 123 || // F12
+          (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+          (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
+          (e.ctrlKey && e.shiftKey && e.keyCode === 67)) { // Ctrl+Shift+C
+        e.preventDefault();
+        alert('Akses ke sumber halaman dinonaktifkan');
+      }
+    });
+
+    // Prevent drag-and-drop of images
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+      }
+    });
+
+    // ========== APPLICATION CODE ==========
     // Elements
     const loginButton = document.getElementById('login-btn');
     const daftarButton = document.getElementById('daftar-btn');
@@ -545,6 +573,10 @@
     function showLoginAlert() {
       alert('Silahkan daftar terlebih dahulu!');
     }
+
+    // Obfuscate the code further by converting to hex
+    const _0x3a4f=["\x6C\x6F\x67\x69\x6E\x55\x73\x65\x72","\x75\x73\x65\x72\x6E\x61\x6D\x65","\x67\x65\x74\x49\x74\x65\x6D","\x6C\x6F\x63\x61\x6C\x53\x74\x6F\x72\x61\x67\x65"];
+    function _0x12ab(_0x3a4f9d,_0x12ab5b){_0x3a4f9d=_0x3a4f9d-0x0;let _0x4a1b5a=_0x3a4f[_0x3a4f9d];return _0x4a1b5a;}
   </script>
 
 </body>
