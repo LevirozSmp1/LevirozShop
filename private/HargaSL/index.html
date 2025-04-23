@@ -141,7 +141,8 @@
 
         // Redirect setelah 1 detik
         setTimeout(() => {
-          window.location.href = `slrpg${priceValue.toLowerCase()}.html`;
+          const folderName = `private/Sl_Rpg_${priceValue.replace('K', 'k')}/`;
+          window.location.href = folderName;
         }, 1000);
       });
     });
